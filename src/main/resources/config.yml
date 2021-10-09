@@ -20,9 +20,6 @@ settings:
     # When enabled, winners will be broadcast to the whole server
     # If disable, winners will only broadcast to players who played that specific game
     broadcast-win-messages: true
-    # If mobs will spawn in the arena, and their interval
-    spawn-mobs: true
-    spawn-mobs-interval: 35
     # The time once the game starts, how long they are safe from PvP (In seconds)
     free-roam: 25
     # Whether or not to show a countdown bossbar in game
@@ -150,12 +147,6 @@ spectate:
     fly: true
     # Allow spectators to chat
     chat: false
-
-mcmmo:
-    # If players in game can use mcMMO skills in game
-    use-skills: false
-    # If players can gain mcMMO experience ing ame
-    gain-experience: false
 
 ## KITS
 # Create new ones, rename the current ones, delete them, go nuts

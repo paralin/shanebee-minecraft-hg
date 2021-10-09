@@ -14,13 +14,11 @@ import tk.shanebee.hg.events.GameEndEvent;
 import tk.shanebee.hg.events.GameStartEvent;
 import tk.shanebee.hg.game.GameCommandData.CommandType;
 import tk.shanebee.hg.managers.KitManager;
-import tk.shanebee.hg.managers.MobManager;
 import tk.shanebee.hg.managers.PlayerManager;
+import tk.shanebee.hg.tasks.StartingTask;
 import tk.shanebee.hg.tasks.ChestDropTask;
 import tk.shanebee.hg.tasks.FreeRoamTask;
 import tk.shanebee.hg.tasks.Rollback;
-import tk.shanebee.hg.tasks.SpawnerTask;
-import tk.shanebee.hg.tasks.StartingTask;
 import tk.shanebee.hg.tasks.TimerTask;
 import tk.shanebee.hg.util.Util;
 import tk.shanebee.hg.util.Vault;
@@ -41,11 +39,9 @@ public class Game {
 
     // Managers
     KitManager kitManager;
-    private final MobManager mobManager;
     private final PlayerManager playerManager;
 
     // Task ID's here!
-    private SpawnerTask spawner;
     private FreeRoamTask freeRoam;
     private StartingTask starting;
     private TimerTask timer;
@@ -108,7 +104,6 @@ public class Game {
         this.playerManager = HG.getPlugin().getPlayerManager();
         this.lang = plugin.getLang();
         this.kitManager = plugin.getKitManager();
-        this.mobManager = new MobManager(this);
         this.bar = new GameBarData(this);
         this.gamePlayerData = new GamePlayerData(this);
         this.gameBlockData = new GameBlockData(this);
@@ -215,15 +210,6 @@ public class Game {
     }
 
     /**
-     * Get this game's MobManager
-     *
-     * @return MobManager for this game
-     */
-    public MobManager getMobManager() {
-        return this.mobManager;
-    }
-
-    /**
      * Start the pregame countdown
      */
     public void startPreGame() {
@@ -252,7 +238,6 @@ public class Game {
      */
     public void startGame() {
         gameArenaData.status = Status.RUNNING;
-        if (Config.spawnmobs) spawner = new SpawnerTask(this, Config.spawnmobsinterval);
         if (Config.randomChest) chestDrop = new ChestDropTask(this);
         gameBlockData.updateLobbyBlock();
         if (Config.bossbar) {
@@ -265,7 +250,6 @@ public class Game {
     }
 
     public void cancelTasks() {
-        if (spawner != null) spawner.stop();
         if (timer != null) timer.stop();
         if (starting != null) starting.stop();
         if (freeRoam != null) freeRoam.stop();
@@ -396,10 +380,10 @@ public class Game {
                 boolean finalDeath = death;
                 if (plugin.isEnabled()) {
                     Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                        stop(finalDeath);
-                        gameBlockData.updateLobbyBlock();
-                        gameArenaData.updateBoards();
-                    }, 20);
+                            stop(finalDeath);
+                            gameBlockData.updateLobbyBlock();
+                            gameArenaData.updateBoards();
+                        }, 20);
                 } else {
                     stop(finalDeath);
                 }
@@ -407,10 +391,10 @@ public class Game {
             }
         } else if (status == Status.WAITING) {
             gamePlayerData.msgAll(lang.player_left_game
-                    .replace("<arena>", gameArenaData.getName())
-                    .replace("<player>", player.getName()) +
-                    (gameArenaData.minPlayers - gamePlayerData.players.size() <= 0 ? "!" : ": " + lang.players_to_start
-                            .replace("<amount>", String.valueOf((gameArenaData.minPlayers - gamePlayerData.players.size())))));
+                                  .replace("<arena>", gameArenaData.getName())
+                                  .replace("<player>", player.getName()) +
+                                  (gameArenaData.minPlayers - gamePlayerData.players.size() <= 0 ? "!" : ": " + lang.players_to_start
+                                   .replace("<amount>", String.valueOf((gameArenaData.minPlayers - gamePlayerData.players.size())))));
         }
         gameBlockData.updateLobbyBlock();
         gameArenaData.updateBoards();
