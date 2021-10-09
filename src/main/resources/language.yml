@@ -155,10 +155,6 @@ cmd-join-no-money: '&cYou do not have enough money to join this game. Cost: &b$<
 ## Kit
 cmd-kit-no-change: '&cYou can not change your kit while the game is running!'
 
-## Leave
-cmd-leave-left: '&6You left &b&l<arena>&c!'
-cmd-leave-refund: '&6You got a refund of &b$<cost> &6for leaving the game before it started'
-
 ## Reload
 cmd-reload-attempt: '&a&lAttempting to reload HungerGames!'
 cmd-reload-reloaded-arena: '&6 - &eArenas have been reloaded!'
@@ -212,11 +208,6 @@ listener-not-running: '&cThe game is not running!'
 listener-no-edit-block: '&cYou cannot edit this block type!'
 listener-no-interact: '&cYou cannot interact until the game has started!'
 listener-sign-click-hand: '&cClick the sign with your hand!'
-
-#  WAND LISTENER
-listener-wand-create-arena: "&6You're now ready to create your arena with '&a/hg create&6'"
-listener-wand-set-pos-2: '&6Now you need to set position 2!'
-listener-wand-big-enough: '&cAn arena needs to be a cuboid of at least 5x5x5 in size.'
 
 #  ARENA CHECK
 check-need-more-spawns: '&cYou still need &7<number> &c more spawns!'

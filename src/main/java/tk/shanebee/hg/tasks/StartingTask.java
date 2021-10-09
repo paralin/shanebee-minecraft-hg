@@ -22,8 +22,8 @@ public class StartingTask implements Runnable {
         String broadcast = lang.game_started
                 .replace("<arena>", name)
                 .replace("<seconds>", "" + timer);
+        Util.broadcast(broadcast);
         if (Config.broadcastJoinMessages) {
-            Util.broadcast(broadcast);
             Util.broadcast(lang.game_join.replace("<arena>", name));
         } else {
             game.getGamePlayerData().msgAll(broadcast);

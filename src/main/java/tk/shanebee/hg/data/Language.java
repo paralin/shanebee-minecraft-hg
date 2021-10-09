@@ -113,8 +113,6 @@ public class Language {
     public String cmd_join_in_game;
     public String cmd_join_no_money;
     public String cmd_kit_no_change;
-    public String cmd_leave_left;
-    public String cmd_leave_refund;
     public String cmd_reload_attempt;
     public String cmd_reload_reloaded_arena;
     public String cmd_reload_reloaded_kit;
@@ -152,9 +150,6 @@ public class Language {
     public String listener_not_running;
     public String listener_no_edit_block;
     public String listener_no_interact;
-    public String listener_wand_create_arena;
-    public String listener_wand_set_pos_2;
-    public String listener_wand_big_enough;
     public String track_nearest;
     public String track_no_near;
     public String track_empty;
@@ -317,8 +312,6 @@ public class Language {
         cmd_join_in_game = lang.getString("cmd-join-in-game");
         cmd_join_no_money = lang.getString("cmd-join-no-money");
         cmd_kit_no_change = lang.getString("cmd-kit-no-change");
-        cmd_leave_left = lang.getString("cmd-leave-left");
-        cmd_leave_refund = lang.getString("cmd-leave-refund");
         cmd_reload_attempt = lang.getString("cmd-reload-attempt");
         cmd_reload_reloaded_arena = lang.getString("cmd-reload-reloaded-arena");
         cmd_reload_reloaded_config = lang.getString("cmd-reload-reloaded-config");
@@ -358,9 +351,6 @@ public class Language {
         track_new1 = lang.getString("track-new1");
         track_new2 = lang.getString("track-new2");
         listener_sign_click_hand = lang.getString("listener-sign-click-hand");
-        listener_wand_create_arena = lang.getString("listener-wand-create-arena");
-        listener_wand_set_pos_2 = lang.getString("listener-wand-set-pos-2");
-        listener_wand_big_enough = lang.getString("listener-wand-big-enough");
         bossbar = lang.getString("game-bossbar");
 
         game_chest_refill = lang.getString("game-chests-refill");

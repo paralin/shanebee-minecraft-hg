@@ -33,7 +33,6 @@ public class PlayerData implements Cloneable {
     private final GameMode mode;
     private final UUID uuid;
     private final Scoreboard scoreboard;
-    private Location previousLocation = null;
     private boolean online;
 
     //InGame data
@@ -169,29 +168,6 @@ public class PlayerData implements Cloneable {
      */
     public UUID getUuid() {
         return this.uuid;
-    }
-
-    /**
-     * Set the previous location of the player
-     *
-     * @param previousLocation Location player was at before entering arena
-     */
-    public void setPreviousLocation(Location previousLocation) {
-        this.previousLocation = previousLocation;
-    }
-
-    /**
-     * Get the previous location of the player
-     *
-     * @return Location player was at before entering arena
-     */
-    @Nullable
-    public Location getPreviousLocation() {
-        if (previousLocation != null) {
-            return previousLocation.clone();
-        } else {
-            return null;
-        }
     }
 
     public boolean isOnline() {

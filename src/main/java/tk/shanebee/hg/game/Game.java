@@ -258,12 +258,11 @@ public class Game {
             Player player = Bukkit.getPlayer(uuid);
             if (player != null) {
                 PlayerData playerData = playerManager.getPlayerData(uuid);
-                Location previousLocation = playerData.getPreviousLocation();
 
                 gamePlayerData.heal(player);
                 playerData.restore(player);
                 win.add(uuid);
-                gamePlayerData.exit(player, previousLocation);
+                gamePlayerData.exit(player);
                 playerManager.removePlayerData(uuid);
             }
         }
@@ -324,7 +323,6 @@ public class Game {
             gameArenaData.status = Status.READY;
         }
         gameArenaData.updateBoards();
-        gameCommandData.runCommands(CommandType.STOP, null);
 
         // Call GameEndEvent
         Collection<Player> winners = new ArrayList<>();
@@ -332,11 +330,23 @@ public class Game {
             winners.add(Bukkit.getPlayer(uuid));
         }
 
-        // Game has ended, we can clear all players now
-        gamePlayerData.clearPlayers();
-        gamePlayerData.clearSpectators();
-        gamePlayerData.clearTeams();
+        gameCommandData.runCommands(CommandType.STOP, null);
+        if (!Config.autoRestart) {
+            // Game has ended, we can clear all players now
+            gamePlayerData.clearPlayers();
+            gamePlayerData.clearSpectators();
+            gamePlayerData.clearTeams();
+        }
+
         Bukkit.getPluginManager().callEvent(new GameEndEvent(this, winners, death));
+
+        if (Config.autoRestart) {
+            Util.log("&7Auto restarting game");
+            // gameCommandData.runCommands(CommandType.START, null);
+            this.startPreGame();
+        } else {
+            Util.log("&7Auto restart is not enabled");
+        }
     }
 
     void updateAfterDeath(Player player, boolean death) {

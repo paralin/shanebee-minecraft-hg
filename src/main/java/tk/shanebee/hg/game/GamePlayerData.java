@@ -290,15 +290,11 @@ public class GamePlayerData extends Data {
                     loc.setY(loc.getY() - 1);
                 }
             }
-            Location previousLocation = player.getLocation();
 
             // Teleport async into the arena so it loads a little more smoothly
             PaperLib.teleportAsync(player, loc).thenAccept(a -> {
 
                 PlayerData playerData = new PlayerData(player, game);
-                if (command && Config.savePreviousLocation) {
-                    playerData.setPreviousLocation(previousLocation);
-                }
                 playerManager.addPlayerData(playerData);
                 gameArenaData.board.setBoard(player);
 
@@ -363,10 +359,9 @@ public class GamePlayerData extends Data {
         }
         heal(player);
         PlayerData playerData = playerManager.getPlayerData(uuid);
-        Location previousLocation = playerData.getPreviousLocation();
 
         playerData.restore(player);
-        exit(player, previousLocation);
+        exit(player);
         playerManager.removePlayerData(player);
         if (death) {
             player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 5, 1);
@@ -374,27 +369,11 @@ public class GamePlayerData extends Data {
         game.updateAfterDeath(player, death);
     }
 
-    void exit(Player player, @Nullable Location exitLocation) {
+    void exit(Player player) {
         GameArenaData gameArenaData = game.getGameArenaData();
         player.setInvulnerable(false);
         if (gameArenaData.getStatus() == Status.RUNNING)
             game.getGameBarData().removePlayer(player);
-        Location loc;
-        if (exitLocation != null) {
-            loc = exitLocation;
-        } else if (gameArenaData.exit != null && gameArenaData.exit.getWorld() != null) {
-            loc = gameArenaData.exit;
-        } else {
-            Location worldSpawn = Bukkit.getWorlds().get(0).getSpawnLocation();
-            Location bedLocation = player.getBedSpawnLocation();
-            loc = bedLocation != null ? bedLocation : worldSpawn;
-        }
-        PlayerData playerData = playerManager.getData(player);
-        if (playerData == null || playerData.isOnline()) {
-            PaperLib.teleportAsync(player, loc);
-        } else {
-            player.teleport(loc);
-        }
     }
 
     /**
@@ -445,7 +424,6 @@ public class GamePlayerData extends Data {
     public void leaveSpectate(Player spectator) {
         UUID uuid = spectator.getUniqueId();
         PlayerData playerData = playerManager.getSpectatorData(uuid);
-        Location previousLocation = playerData.getPreviousLocation();
 
         playerData.restore(spectator);
         spectators.remove(spectator.getUniqueId());
@@ -457,7 +435,7 @@ public class GamePlayerData extends Data {
         }
         if (Config.spectateHide)
             revealPlayer(spectator);
-        exit(spectator, previousLocation);
+        exit(spectator);
         playerManager.removeSpectatorData(uuid);
     }
 

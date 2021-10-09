@@ -106,16 +106,10 @@ public class HG extends JavaPlugin {
         if (load) {
             loadCmds();
         }
-        getServer().getPluginManager().registerEvents(new WandListener(this), this);
         getServer().getPluginManager().registerEvents(new CancelListener(this), this);
         getServer().getPluginManager().registerEvents(new GameListener(this), this);
 
-        if (this.getDescription().getVersion().contains("Beta")) {
-            Util.log("&eYOU ARE RUNNING A BETA VERSION, please use with caution");
-            Util.log("&eReport any issues to: &bhttps://github.com/ShaneBeeStudios/HungerGames/issues");
-        }
-
-        Util.log("HungerGames has been &aenabled&7 in &b%.2f seconds&7!", (float)(System.currentTimeMillis() - start) / 1000);
+        Util.log("SimpleHungerGames has been &aenabled&7 in &b%.2f seconds&7!", (float)(System.currentTimeMillis() - start) / 1000);
     }
 
     public void reloadPlugin() {
@@ -154,7 +148,7 @@ public class HG extends JavaPlugin {
         // I know this seems odd, but this method just
         // nulls everything to prevent memory leaks
         unloadPlugin(false);
-        Util.log("HungerGames has been disabled!");
+        Util.log("SimpleHungerGames has been disabled!");
     }
 
     private void loadCmds() {
@@ -162,9 +156,7 @@ public class HG extends JavaPlugin {
         cmds.put("addspawn", new AddSpawnCmd());
         cmds.put("create", new CreateCmd());
         cmds.put("join", new JoinCmd());
-        cmds.put("leave", new LeaveCmd());
         cmds.put("reload", new ReloadCmd());
-        cmds.put("wand", new WandCmd());
         cmds.put("kit", new KitCmd());
         cmds.put("debug", new DebugCmd());
         cmds.put("list", new ListCmd());

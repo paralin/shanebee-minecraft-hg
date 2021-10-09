@@ -36,6 +36,7 @@ import org.bukkit.event.player.PlayerBucketEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
@@ -691,6 +692,23 @@ public class GameListener implements Listener {
                 entity.setPersistent(false);
                 game.getGameArenaData().getBound().addEntity(entity);
             }
+        }
+    }
+
+    @EventHandler
+    private void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        if (Config.autoJoin) {
+            Util.log("Auto-joining player &b" + player.getUniqueId() + "&7!");
+            if (!playerManager.hasPlayerData(player) && !playerManager.hasSpectatorData(player)) {
+                Game g = gameManager.getAnyGame();
+                if (g != null && !g.getGamePlayerData().getPlayers().contains(player.getUniqueId())) {
+                    g.getGamePlayerData().join(player, true);
+                }
+            }
+        }
+        if (!Config.autoJoin) {
+            Util.log("Auto-joining is disabled");
         }
     }
 

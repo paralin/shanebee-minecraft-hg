@@ -224,6 +224,17 @@ public class Manager {
 		return null;
 	}
 
+  /** Get the first configured game
+    * @param location The location to check for a game
+    * @return The game
+    */
+  public Game getAnyGame() {
+    for (Game g : plugin.getGames()) {
+        return g;
+    }
+    return null;
+  }
+
 	/** Get a game by name
 	 * @param name The name of the game to find
 	 * @return The game
