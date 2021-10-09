@@ -100,16 +100,11 @@ public class CommandListener implements CommandExecutor, TabCompleter {
 					args[0].equalsIgnoreCase("stop") ||
 					(args[0].equalsIgnoreCase("forcestart")) ||
 					(args[0].equalsIgnoreCase("join")) ||
-					(args[0].equalsIgnoreCase("setlobbywall")) ||
-					(args[0].equalsIgnoreCase("setexit")) ||
 					(args[0].equalsIgnoreCase("toggle")) ||
 					(args[0].equalsIgnoreCase("bordercenter")) ||
 					((args[0].equalsIgnoreCase("spectate")) && Config.spectateEnabled)) {
 				ArrayList<String> matchesDelete = new ArrayList<>();
 				if (args.length == 2) {
-					if (args[0].equalsIgnoreCase("setexit") && StringUtil.startsWithIgnoreCase("all", args[1])) {
-						matchesDelete.add("all");
-					}
 					for (Game game : plugin.getGames()) {
 						String name = game.getGameArenaData().getName();
 						if (StringUtil.startsWithIgnoreCase(name, args[1])) {

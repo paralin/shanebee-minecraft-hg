@@ -6,7 +6,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
-import org.bukkit.block.Sign;
 import org.bukkit.block.data.Directional;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.inventory.InventoryHolder;
@@ -22,16 +21,10 @@ import java.util.List;
  * Data class for holding a {@link Game Game's} blocks
  */
 public class GameBlockData extends Data {
-
     private final List<Location> chests = new ArrayList<>();
     private final List<Location> playerChests = new ArrayList<>();
     private final List<BlockState> blocks = new ArrayList<>();
     private final List<ItemFrameData> itemFrameData = new ArrayList<>();
-
-    // LobbySign
-    Sign sign1;
-    private Sign sign2;
-    private Sign sign3;
 
     protected GameBlockData(Game game) {
         super(game);
@@ -189,55 +182,4 @@ public class GameBlockData extends Data {
     public void resetItemFrames() {
         this.itemFrameData.clear();
     }
-
-    void updateLobbyBlock() {
-        if (sign2 == null || sign3 == null) return;
-        sign2.setLine(1, game.gameArenaData.status.getName());
-        sign3.setLine(1, ChatColor.BOLD + "" + game.getGamePlayerData().players.size() + "/" + game.gameArenaData.maxPlayers);
-        sign2.update(true);
-        sign3.update(true);
-    }
-
-    /**
-     * Set the lobby block for this game
-     *
-     * @param sign The sign to which the lobby will be set at
-     * @return True if lobby is set
-     */
-    @SuppressWarnings("ConstantConditions")
-    public boolean setLobbyBlock(Sign sign) {
-        try {
-            this.sign1 = sign;
-            Block c = sign1.getBlock();
-            BlockFace face = Util.getSignFace(((Directional) sign1.getBlockData()).getFacing());
-            this.sign2 = (Sign) c.getRelative(face).getState();
-            this.sign3 = (Sign) sign2.getBlock().getRelative(face).getState();
-
-            sign1.setLine(0, Util.getColString(lang.lobby_sign_1_1));
-            sign1.setLine(1, Util.getColString("&l" + game.gameArenaData.name));
-            sign1.setLine(2, Util.getColString(lang.lobby_sign_1_3));
-            if (game.gameArenaData.cost > 0)
-                sign1.setLine(3, Util.getColString(HG.getPlugin().getLang().lobby_sign_cost.replace("<cost>", String.valueOf(game.gameArenaData.cost))));
-            sign2.setLine(0, Util.getColString(lang.lobby_sign_2_1));
-            sign2.setLine(1, Util.getColString(game.gameArenaData.status.getName()));
-            sign3.setLine(0, Util.getColString(lang.lobby_sign_3_1));
-            sign3.setLine(1, Util.getColString("&l" + 0 + "/" + game.gameArenaData.maxPlayers));
-            sign1.update(true);
-            sign2.update(true);
-            sign3.update(true);
-        } catch (Exception e) {
-            Util.warning("Failed to setup lobby wall for arena '%s'", game.gameArenaData.name);
-            return false;
-        }
-        return true;
-    }
-
-    public boolean isLobbyValid() {
-        try {
-            return sign1 != null && sign2 != null && sign3 != null;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
 }

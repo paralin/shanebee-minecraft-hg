@@ -2,7 +2,6 @@ package tk.shanebee.hg.game;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import tk.shanebee.hg.HG;
 import tk.shanebee.hg.Status;
@@ -21,7 +20,6 @@ import tk.shanebee.hg.tasks.FreeRoamTask;
 import tk.shanebee.hg.tasks.Rollback;
 import tk.shanebee.hg.tasks.TimerTask;
 import tk.shanebee.hg.util.Util;
-import tk.shanebee.hg.util.Vault;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -63,7 +61,6 @@ public class Game {
      * @param name       Name of this game
      * @param bound      Bounding region of this game
      * @param spawns     List of spawns for this game
-     * @param lobbySign  Lobby sign block
      * @param timer      Length of the game (in seconds)
      * @param minPlayers Minimum players to be able to start the game
      * @param maxPlayers Maximum players that can join this game
@@ -71,15 +68,9 @@ public class Game {
      * @param isReady    If the game is ready to start
      * @param cost       Cost of this game
      */
-    public Game(String name, Bound bound, List<Location> spawns, Sign lobbySign, int timer, int minPlayers, int maxPlayers, int roam, boolean isReady, int cost) {
+    public Game(String name, Bound bound, List<Location> spawns, int timer, int minPlayers, int maxPlayers, int roam, boolean isReady, int cost) {
         this(name, bound, timer, minPlayers, maxPlayers, roam, cost);
         gameArenaData.spawns.addAll(spawns);
-        this.gameBlockData.sign1 = lobbySign;
-
-        // If lobby signs are not properly setup, game is not ready
-        if (!this.gameBlockData.setLobbyBlock(lobbySign)) {
-            isReady = false;
-        }
         gameArenaData.setStatus(isReady ? Status.READY : Status.BROKEN);
 
         this.kitManager = plugin.getKitManager();
@@ -182,15 +173,6 @@ public class Game {
     }
 
     /**
-     * Get the location of the lobby for this game
-     *
-     * @return Location of the lobby sign
-     */
-    public Location getLobbyLocation() {
-        return gameBlockData.sign1.getLocation();
-    }
-
-    /**
      * Get the kits for this game
      *
      * @return The KitManager kit for this game
@@ -219,7 +201,6 @@ public class Game {
 
         gameArenaData.status = Status.COUNTDOWN;
         starting = new StartingTask(this);
-        gameBlockData.updateLobbyBlock();
     }
 
     /**
@@ -227,7 +208,6 @@ public class Game {
      */
     public void startFreeRoam() {
         gameArenaData.status = Status.BEGINNING;
-        gameBlockData.updateLobbyBlock();
         gameArenaData.bound.removeEntities();
         freeRoam = new FreeRoamTask(this);
         gameCommandData.runCommands(CommandType.START, null);
@@ -239,7 +219,6 @@ public class Game {
     public void startGame() {
         gameArenaData.status = Status.RUNNING;
         if (Config.randomChest) chestDrop = new ChestDropTask(this);
-        gameBlockData.updateLobbyBlock();
         if (Config.bossbar) {
             bar.createBossbar(gameArenaData.timer);
         }
@@ -301,7 +280,6 @@ public class Game {
         }
 
         if (!win.isEmpty() && death) {
-            double db = (double) Config.cash / win.size();
             for (UUID u : win) {
                 if (Config.giveReward) {
                     Player p = Bukkit.getPlayer(u);
@@ -317,10 +295,6 @@ public class Game {
                             if (!msg.equalsIgnoreCase("none"))
                                 Util.scm(p, msg.replace("<player>", p.getName()));
                         }
-                    }
-                    if (Config.cash != 0) {
-                        Vault.economy.depositPlayer(Bukkit.getServer().getOfflinePlayer(u), db);
-                        Util.scm(p, lang.winning_amount.replace("<amount>", String.valueOf(db)));
                     }
                 }
                 plugin.getLeaderboard().addStat(u, Leaderboard.Stats.WINS);
@@ -348,7 +322,6 @@ public class Game {
             }
         } else {
             gameArenaData.status = Status.READY;
-            gameBlockData.updateLobbyBlock();
         }
         gameArenaData.updateBoards();
         gameCommandData.runCommands(CommandType.STOP, null);
@@ -381,7 +354,6 @@ public class Game {
                 if (plugin.isEnabled()) {
                     Bukkit.getScheduler().runTaskLater(plugin, () -> {
                             stop(finalDeath);
-                            gameBlockData.updateLobbyBlock();
                             gameArenaData.updateBoards();
                         }, 20);
                 } else {
@@ -396,7 +368,6 @@ public class Game {
                                   (gameArenaData.minPlayers - gamePlayerData.players.size() <= 0 ? "!" : ": " + lang.players_to_start
                                    .replace("<amount>", String.valueOf((gameArenaData.minPlayers - gamePlayerData.players.size())))));
         }
-        gameBlockData.updateLobbyBlock();
         gameArenaData.updateBoards();
     }
 

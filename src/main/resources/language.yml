@@ -167,24 +167,6 @@ cmd-reload-reloaded-items: '&6 - &eRandomItems have been reloaded!'
 cmd-reload-reloaded-config: '&6 - &eConfig values have been reloaded!'
 cmd-reload-reloaded-success: '&l&a- Successfully reloaded HungerGames'
 
-## Exit
-cmd-exit-set: '&6Global Exit Spawn Set:'
-cmd-exit-set-arena: '&6<arena> Exit Spawn Set:'
-
-## LobbyWall
-cmd-lobbywall-set: '&aThe lobbyWallSign has been set!'
-cmd-lobbywall-notcorrect: '&cThese signs are not in correct format!'
-cmd-lobbywall-format: '&cformat: &6[sign] &c[sign] [sign]'
-lobby-signs:
-    sign-1:
-        line-1: '&1&lHunger Games'
-        line-3: '&0&lClick To Join'
-        line-4: 'Cost $&b<cost>'
-    sign-2:
-        line-1: '&1&lGame Status'
-    sign-3:
-        line-1: '&1&lAlive'
-
 ## Start
 cmd-start-starting: '&b<arena>&6 is now starting!'
 
@@ -240,8 +222,6 @@ listener-wand-big-enough: '&cAn arena needs to be a cuboid of at least 5x5x5 in 
 check-need-more-spawns: '&cYou still need &7<number> &c more spawns!'
 check-broken-debug: '&cYour arena is marked as broken! use &7/hg debug <arena> &cto check for errors!'
 check-broken-debug-2: '&cIf no errors are found, please use &7/hg toggle <arena>&c!'
-check-invalid-lobby: '&cYour LobbyWall is invalid! Please reset them!'
-check-set-lobby: '&6Set lobbywall: &7/hg setlobbywall <arena>'
 check-ready-run: '&aYour HungerGames arena &7<arena>&a is ready to run!'
 
 #  TRACK STICK

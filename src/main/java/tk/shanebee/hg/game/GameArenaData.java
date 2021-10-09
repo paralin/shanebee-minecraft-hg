@@ -147,7 +147,6 @@ public class GameArenaData extends Data {
      */
     public void setStatus(Status status) {
         this.status = status;
-        game.gameBlockData.updateLobbyBlock();
     }
 
     /**
@@ -157,24 +156,6 @@ public class GameArenaData extends Data {
      */
     public Status getStatus() {
         return this.status;
-    }
-
-    /**
-     * Get the exit location associated with this game
-     *
-     * @return Exit location
-     */
-    public Location getExit() {
-        return this.exit;
-    }
-
-    /**
-     * Set exit location for this game
-     *
-     * @param location Location where players will exit
-     */
-    public void setExit(Location location) {
-        this.exit = location;
     }
 
     /**

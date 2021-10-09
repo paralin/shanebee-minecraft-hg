@@ -204,19 +204,6 @@ public class Util {
         return string.equalsIgnoreCase("true") || string.equalsIgnoreCase("false");
     }
 
-    public static BlockFace getSignFace(BlockFace face) {
-        switch (face) {
-            case WEST:
-                return BlockFace.SOUTH;
-            case SOUTH:
-                return BlockFace.EAST;
-            case EAST:
-                return BlockFace.NORTH;
-            default:
-                return BlockFace.WEST;
-        }
-    }
-
     /**
      * Clear the inventory of a player including equipment
      *
@@ -323,21 +310,6 @@ public class Util {
             rev = 0;
         }
         return maj > major || min > minor || (min == minor && rev >= revision);
-    }
-
-    /**
-     * Check if a material is a wall sign
-     * <p>Due to sign material changes in 1.14 this method checks for both 1.13 and 1.14+</p>
-     *
-     * @param item Material to check
-     * @return True if material is a wall sign
-     */
-    public static boolean isWallSign(Material item) {
-        if (isRunningMinecraft(1, 14)) {
-            return Tag.WALL_SIGNS.isTagged(item);
-        } else {
-            return item == Material.getMaterial("WALL_SIGN");
-        }
     }
 
     /**

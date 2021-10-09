@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.Sign;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -93,16 +92,6 @@ public class ArenaConfig {
 		int freeroam = pluginConfig.getInt("settings.free-roam");
 
 		if (customConfigFile.exists()) {
-			// TODO remove after a while (aug 30/2020)
-			// Move global exit from config.yml to arenas.yml
-			if (pluginConfig.isSet("settings.globalexit")) {
-				String globalExit = pluginConfig.getString("settings.globalexit");
-				pluginConfig.set("settings.globalexit", null);
-				plugin.getHGConfig().save();
-				arenadat.set("global-exit-location", globalExit);
-				saveCustomConfig();
-			}
-
 			new CompassTask(plugin);
 
 			ConfigurationSection section = arenadat.getConfigurationSection("arenas");
@@ -111,7 +100,6 @@ public class ArenaConfig {
 				for (String arenaName : section.getKeys(false)) {
 					boolean isReady = true;
 					List<Location> spawns = new ArrayList<>();
-					Sign lobbysign = null;
 					int timer = 0;
 					int cost = 0;
 					int minplayers = 0;
@@ -134,14 +122,6 @@ public class ArenaConfig {
 					}
 
 					try {
-						lobbysign = (Sign) getSLoc(arenadat.getString(path + ".lobbysign")).getBlock().getState();
-					} catch (Exception e) { 
-						Util.warning("Unable to load lobby sign for arena '" + arenaName + "'!");
-						Util.debug(e);
-						isReady = false;
-					}
-
-					try {
 						for (String l : arenadat.getStringList(path + ".spawns")) {
 							spawns.add(getLocFromString(l));
 						}
@@ -157,7 +137,7 @@ public class ArenaConfig {
 						isReady = false;
 					}
 
-					Game game = new Game(arenaName, bound, spawns, lobbysign, timer, minplayers, maxplayers, freeroam, isReady, cost);
+					Game game = new Game(arenaName, bound, spawns, timer, minplayers, maxplayers, freeroam, isReady, cost);
 					plugin.getGames().add(game);
 
 					World world = bound.getWorld();
@@ -217,25 +197,7 @@ public class ArenaConfig {
 						int chestRefillRepeat = arenadat.getInt(path + ".chest-refill-repeat");
 						gameArenaData.setChestRefillRepeat(chestRefillRepeat);
 					}
-					try {
-						Location location;
-						if (arenadat.isSet(path + ".exit-location")) {
-							location = getLocFromString(arenadat.getString(path + ".exit-location"));
-						} else if (arenadat.isSet("global-exit-location")) {
-							location = getLocFromString(arenadat.getString("global-exit-location"));
-						} else {
-							location = game.getLobbyLocation().getWorld().getSpawnLocation();
-						}
-						gameArenaData.setExit(location);
-					} catch (Exception exception) {
-					    World mainWorld = Bukkit.getWorlds().get(0);
-						gameArenaData.setExit(mainWorld.getSpawnLocation());
-						Util.warning("Failed to setup exit location for arena '%s', defaulting to spawn location of world '%s'",
-                                arenaName, world.getName());
-						Util.debug(exception);
-					}
 					Util.log("Arena &b" + arenaName + "&7 has been &aloaded!");
-
 				}
 			} else {
 				Util.log("&cNo Arenas to load.");

@@ -7,7 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -420,25 +419,6 @@ public class GameListener implements Listener {
             if (status != Status.RUNNING && status != Status.BEGINNING) {
                 event.setCancelled(true);
                 Util.scm(player, lang.listener_no_interact);
-            }
-        } else if (action == Action.RIGHT_CLICK_BLOCK) {
-            Block block = event.getClickedBlock();
-            assert block != null;
-            if (Util.isWallSign(block.getType())) {
-                Sign sign = (Sign) block.getState();
-                if (sign.getLine(0).equals(Util.getColString(lang.lobby_sign_1_1))) {
-                    Game game = gameManager.getGame(sign.getLine(1).substring(2));
-                    if (game == null) {
-                        Util.scm(player, lang.cmd_delete_noexist);
-                    } else {
-                        if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
-                            // Process this after event has finished running to prevent double click issues
-                            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> game.getGamePlayerData().join(player), 2);
-                        } else {
-                            Util.scm(player, lang.listener_sign_click_hand);
-                        }
-                    }
-                }
             }
         } else if (action == Action.LEFT_CLICK_AIR) {
             if (player.getInventory().getItemInMainHand().getType().equals(Material.STICK) && playerManager.hasPlayerData(player)) {

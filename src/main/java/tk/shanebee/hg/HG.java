@@ -164,7 +164,6 @@ public class HG extends JavaPlugin {
         cmds.put("join", new JoinCmd());
         cmds.put("leave", new LeaveCmd());
         cmds.put("reload", new ReloadCmd());
-        cmds.put("setlobbywall", new SetLobbyWallCmd());
         cmds.put("wand", new WandCmd());
         cmds.put("kit", new KitCmd());
         cmds.put("debug", new DebugCmd());
@@ -173,7 +172,6 @@ public class HG extends JavaPlugin {
         cmds.put("forcestart", new StartCmd());
         cmds.put("stop", new StopCmd());
         cmds.put("toggle", new ToggleCmd());
-        cmds.put("setexit", new SetExitCmd());
         cmds.put("delete", new DeleteCmd());
         cmds.put("chestrefill", new ChestRefillCmd());
         cmds.put("chestrefillnow", new ChestRefillNowCmd());

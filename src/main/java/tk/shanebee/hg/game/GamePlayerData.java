@@ -21,7 +21,6 @@ import tk.shanebee.hg.game.GameCommandData.CommandType;
 import tk.shanebee.hg.gui.SpectatorGUI;
 import tk.shanebee.hg.managers.PlayerManager;
 import tk.shanebee.hg.util.Util;
-import tk.shanebee.hg.util.Vault;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -218,20 +217,6 @@ public class GamePlayerData extends Data {
         return false;
     }
 
-    boolean vaultCheck(Player player) {
-        if (Config.economy) {
-            int cost = game.gameArenaData.cost;
-            if (Vault.economy.getBalance(player) >= cost) {
-                Vault.economy.withdrawPlayer(player, cost);
-                return true;
-            } else {
-                Util.scm(player, lang.prefix + lang.cmd_join_no_money.replace("<cost>", String.valueOf(cost)));
-                return false;
-            }
-        }
-        return true;
-    }
-
     /**
      * Add a kill to a player
      *
@@ -253,6 +238,20 @@ public class GamePlayerData extends Data {
     }
 
     /**
+     * Join a player to the game, or spectate if full.
+     *
+     * @param player Player to join the game
+     */
+    public void joinOrSpectate(Player player) {
+        GameArenaData gameArenaData = game.getGameArenaData();
+        if (gameArenaData.maxPlayers <= players.size()) {
+            join(player, false);
+        } else {
+            spectate(player);
+        }
+    }
+
+    /**
      * Join a player to the game
      *
      * @param player  Player to join the game
@@ -268,10 +267,9 @@ public class GamePlayerData extends Data {
             }
         } else if (gameArenaData.maxPlayers <= players.size()) {
             Util.scm(player, "&c" + gameArenaData.getName() + " " + lang.game_full);
+            this.spectate(player);
+            return;
         } else if (!players.contains(player.getUniqueId())) {
-            if (!vaultCheck(player)) {
-                return;
-            }
             // Call PlayerJoinGameEvent
             PlayerJoinGameEvent event = new PlayerJoinGameEvent(game, player);
             Bukkit.getPluginManager().callEvent(event);
@@ -335,7 +333,6 @@ public class GamePlayerData extends Data {
                 }
                 kitHelp(player);
 
-                game.gameBlockData.updateLobbyBlock();
                 game.gameArenaData.updateBoards();
                 game.gameCommandData.runCommands(CommandType.JOIN, player);
             });

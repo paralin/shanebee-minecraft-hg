@@ -123,9 +123,6 @@ public class Language {
     public String cmd_reload_reloaded_success;
     public String cmd_exit_set;
     public String cmd_exit_set_arena;
-    public String cmd_lobbywall_set;
-    public String cmd_lobbywall_notcorrect;
-    public String cmd_lobbywall_format;
     public String cmd_start_starting;
     public String cmd_stop_all;
     public String cmd_stop_arena;
@@ -169,19 +166,12 @@ public class Language {
     public String lb_blank_space;
     public String lb_combined_separator;
     public String lb_missing_player;
-    public String lobby_sign_cost;
-    public String lobby_sign_1_1;
-    public String lobby_sign_1_3;
-    public String lobby_sign_2_1;
-    public String lobby_sign_3_1;
     public String spectator_compass;
     public String spectator_compass_head_lore;
     public String spectator_start_title;
     public String check_need_more_spawns;
     public String check_broken_debug;
     public String check_broken_debug_2;
-    public String check_invalid_lobby;
-    public String check_set_lobby;
     public String check_ready_run;
 
 
@@ -337,9 +327,6 @@ public class Language {
         cmd_reload_reloaded_success = lang.getString("cmd-reload-reloaded-success");
         cmd_exit_set = lang.getString("cmd-exit-set");
         cmd_exit_set_arena = lang.getString("cmd-exit-set-arena");
-        cmd_lobbywall_set = lang.getString("cmd-lobbywall-set");
-        cmd_lobbywall_notcorrect = lang.getString("cmd-lobbywall-notcorrect");
-        cmd_lobbywall_format = lang.getString("cmd-lobbywall-format");
         cmd_start_starting = lang.getString("cmd-start-starting");
         cmd_stop_all = lang.getString("cmd-stop-all");
         cmd_stop_arena = lang.getString("cmd-stop-arena");
@@ -387,12 +374,6 @@ public class Language {
         lb_combined_separator = lang.getString("lb-combined-separator");
         lb_missing_player = lang.getString("lb-missing-player");
 
-        lobby_sign_1_1 = lang.getString("lobby-signs.sign-1.line-1");
-        lobby_sign_1_3 = lang.getString("lobby-signs.sign-1.line-3");
-        lobby_sign_cost = lang.getString("lobby-signs.sign-1.line-4");
-        lobby_sign_2_1 = lang.getString("lobby-signs.sign-2.line-1");
-        lobby_sign_3_1 = lang.getString("lobby-signs.sign-3.line-1");
-
         spectator_compass = lang.getString("spectator-compass");
         spectator_compass_head_lore = lang.getString("spectator-head-lore");
         spectator_start_title = lang.getString("spectator-start-title");
@@ -410,8 +391,6 @@ public class Language {
         check_need_more_spawns = lang.getString("check-need-more-spawns");
         check_broken_debug = lang.getString("check-broken-debug");
         check_broken_debug_2 = lang.getString("check-broken-debug-2");
-        check_invalid_lobby = lang.getString("check-invalid-lobby");
-        check_set_lobby = lang.getString("check-set-lobby");
         check_ready_run = lang.getString("check-ready-run");
     }
 

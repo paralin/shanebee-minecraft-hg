@@ -65,8 +65,6 @@ team:
 reward:
     # Whether players get a reward when the game is done!
     enabled: true
-    # The cash prize the winner receives. (Set to 0 if you would prefer to use commands instead of money)
-    cash: 500
     # You can have the game run commands when a player wins
     # Can be used for things like vote crate keys, GriefPrevention claim blocks, etc.
     # Examples:     <player> will be replaced by winner

@@ -3,7 +3,6 @@ package tk.shanebee.hg.managers;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
@@ -47,7 +46,6 @@ public class Manager {
 		Configuration arenadat = HG.getPlugin().getArenaConfig().getCustomConfig();
 		boolean isReady = true;
 		List<Location> spawns = new ArrayList<>();
-		Sign lobbysign = null;
 		int timer = 0;
 		int minplayers = 0;
 		int maxplayers = 0;
@@ -88,13 +86,6 @@ public class Manager {
 		}
 
 		try {
-			lobbysign = (Sign) HG.getPlugin().getArenaConfig().getSLoc(arenadat.getString("arenas." + gameName + "." + "lobbysign")).getBlock().getState();
-		} catch (Exception e) { 
-			Util.scm(sender, "&cUnable to load lobbysign for arena " + gameName + "!");
-			isReady = false;
-		}
-
-		try {
 			for (String l : arenadat.getStringList("arenas." + gameName + "." + "spawns")) {
 				spawns.add(HG.getPlugin().getArenaConfig().getLocFromString(l));
 			}
@@ -118,7 +109,6 @@ public class Manager {
 		if (isReady) {
 			Util.scm(sender,"&7&l---= &3&lYour HungerGames arena is ready to run! &7&l=---");
 			Util.scm(sender, "&7Spawns:&b " + spawns.size());
-			Util.scm(sender, "&7Lobby:&b x:" + lobbysign.getX() +", y:"+ lobbysign.getY() +", z:"+ lobbysign.getZ());
 			Util.scm(sender, "&7Timer:&b " + timer);
 			Util.scm(sender, "&7MinPlayers:&b " + minplayers);
 			Util.scm(sender, "&7MaxPlayers:&b " + maxplayers);
@@ -153,9 +143,6 @@ public class Manager {
 		} else if (gameArenaData.getStatus() == Status.BROKEN) {
 			Util.sendPrefixedMessage(player, lang.check_broken_debug.replace("<arena>", name));
 			Util.sendPrefixedMessage(player, lang.check_broken_debug_2.replace("<arena>", name));
-		} else if (!game.getGameBlockData().isLobbyValid()) {
-			Util.sendPrefixedMessage(player, lang.check_invalid_lobby);
-			Util.sendPrefixedMessage(player, lang.check_set_lobby.replace("<arena>", name));
 		} else {
 			Util.sendPrefixedMessage(player, lang.check_ready_run.replace("<arena>", name));
 			gameArenaData.setStatus(Status.READY);

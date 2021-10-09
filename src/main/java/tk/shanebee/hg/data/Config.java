@@ -5,7 +5,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import tk.shanebee.hg.HG;
 import tk.shanebee.hg.util.Util;
-import tk.shanebee.hg.util.Vault;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +22,6 @@ public class Config {
     //Basic settings
     public static boolean broadcastJoinMessages;
     public static boolean broadcastWinMessages;
-    public static boolean economy = true;
     public static boolean bossbar;
     public static int trackingstickuses;
     public static int playersfortrackingstick;
@@ -45,7 +43,6 @@ public class Config {
 
     //Reward info
     public static boolean giveReward;
-    public static int cash;
     public static List<String> rewardCommands;
     public static List<String> rewardMessages;
 
@@ -124,11 +121,9 @@ public class Config {
         team_see_invis = config.getBoolean("team.can-see-friendly-invisibles");
 
         giveReward = config.getBoolean("reward.enabled");
-        cash = config.getInt("reward.cash");
         rewardCommands = config.getStringList("reward.commands");
         rewardMessages = config.getStringList("reward.messages");
         giveReward = config.getBoolean("reward.enabled");
-        cash = config.getInt("reward.cash");
         breakblocks = config.getBoolean("rollback.allow-block-break");
         blocks_per_second = config.getInt("rollback.blocks-per-second");
         protectCooldown = config.getBoolean("rollback.protect-during-cooldown");
@@ -155,22 +150,6 @@ public class Config {
         spectateHide = config.getBoolean("spectate.hide-spectators");
         spectateFly = config.getBoolean("spectate.fly");
         spectateChat = config.getBoolean("spectate.chat");
-
-        try {
-            Vault.setupEconomy();
-            if (Vault.economy == null) {
-                Util.log("&cUnable to setup vault!");
-                Util.log(" - &cEconomy provider is missing.");
-                Util.log(" - Cash rewards will not be given out..");
-                giveReward = false;
-                economy = false;
-            }
-        } catch (NoClassDefFoundError e) {
-            Util.log("&cUnable to setup vault!");
-            Util.log("  - Cash rewards will not be given out..");
-            giveReward = false;
-            economy = false;
-        }
     }
 
     // Used to update config

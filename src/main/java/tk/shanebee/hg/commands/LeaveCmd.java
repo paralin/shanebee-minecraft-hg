@@ -5,7 +5,6 @@ import tk.shanebee.hg.data.Config;
 import tk.shanebee.hg.game.Game;
 import tk.shanebee.hg.game.GameArenaData;
 import tk.shanebee.hg.util.Util;
-import tk.shanebee.hg.util.Vault;
 
 public class LeaveCmd extends BaseCmd {
 
@@ -21,15 +20,6 @@ public class LeaveCmd extends BaseCmd {
 		Game game;
 		if (playerManager.hasPlayerData(player)) {
 			game = playerManager.getPlayerData(player).getGame();
-			if (Config.economy) {
-				GameArenaData gameArenaData = game.getGameArenaData();
-				Status status = gameArenaData.getStatus();
-				if ((status == Status.WAITING || status == Status.COUNTDOWN) && gameArenaData.getCost() > 0) {
-					Vault.economy.depositPlayer(player, gameArenaData.getCost());
-					Util.scm(player, lang.prefix +
-							lang.cmd_leave_refund.replace("<cost>", String.valueOf(gameArenaData.getCost())));
-				}
-			}
 			game.getGamePlayerData().leave(player, false);
 		} else {
 			game = playerManager.getSpectatorData(player).getGame();
