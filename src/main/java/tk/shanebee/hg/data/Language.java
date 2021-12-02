@@ -150,6 +150,9 @@ public class Language {
     public String listener_not_running;
     public String listener_no_edit_block;
     public String listener_no_interact;
+    public String listener_wand_create_arena;
+    public String listener_wand_set_pos_2;
+    public String listener_wand_big_enough;
     public String track_nearest;
     public String track_no_near;
     public String track_empty;
@@ -351,6 +354,9 @@ public class Language {
         track_new1 = lang.getString("track-new1");
         track_new2 = lang.getString("track-new2");
         listener_sign_click_hand = lang.getString("listener-sign-click-hand");
+        listener_wand_create_arena = lang.getString("listener-wand-create-arena");
+        listener_wand_set_pos_2 = lang.getString("listener-wand-set-pos-2");
+        listener_wand_big_enough = lang.getString("listener-wand-big-enough");
         bossbar = lang.getString("game-bossbar");
 
         game_chest_refill = lang.getString("game-chests-refill");

@@ -106,6 +106,7 @@ public class HG extends JavaPlugin {
         if (load) {
             loadCmds();
         }
+        getServer().getPluginManager().registerEvents(new WandListener(this), this);
         getServer().getPluginManager().registerEvents(new CancelListener(this), this);
         getServer().getPluginManager().registerEvents(new GameListener(this), this);
 
@@ -157,6 +158,7 @@ public class HG extends JavaPlugin {
         cmds.put("create", new CreateCmd());
         cmds.put("join", new JoinCmd());
         cmds.put("reload", new ReloadCmd());
+        cmds.put("wand", new WandCmd());
         cmds.put("kit", new KitCmd());
         cmds.put("debug", new DebugCmd());
         cmds.put("list", new ListCmd());
